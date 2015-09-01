@@ -1,7 +1,7 @@
 <h6>Implements of Token-based Authentication using EntityFramework/SqlServer,
 to be wrapped as components for your Restful-App </h6>
 
-<b>Main Classes</b>
+<b>Main Classes:</b>
 
 <i>AuthServiceStack.AuthModel.EF.AuthContext</i> wraps basic models for claims-based identity:<i>the super set of role-base identity</i><br/>
 
