@@ -109,7 +109,7 @@ So you can inherit it like <br/>
  </h2>which wraps clients authentication,token-generating/ticket with identities
   <h2>
    4.AuthServiceStack.AuthProvider.SimpleFreshTokenProvider
- </h2> wraps token-refresh.
+ </h2>which wraps token-refresh.
 <h3>How to generate an Authentication Database instance?</h3><br/>
 Carefully setup your connectionStrings section in Web.config,you can refer to the example <i>AuthCenter</i><br/>
 Run the following command on your Package-Manage-console targetting  "AuthServiceStack.AuthModel.EF" project<br/>
@@ -141,9 +141,9 @@ update-database
   </code>
 </pre>
 <h3>Important!</h3> <br>
-TransClaimsAuthorizationFilter is abstract and its property <i>ClaimsAbbreviationDictionary</i> is delegate object <br/>
+The AuthServiceStack.AuthProvider.TransClaimsAuthorizationFilter is abstract and its property <i>ClaimsAbbreviationDictionary</i> is delegate object <br/>
 you can offer a ClaimsAbbreviationDictionary to translate abbr claim to long-unique claim-type <br/>
-Or offer a null object to keep raw claim-type.
+Or remain defaults ,i.e a null object to keep raw claim-type.
 
 
 
