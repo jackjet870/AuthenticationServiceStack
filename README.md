@@ -3,7 +3,7 @@ to be wrapped as components for your Restful-App </h6>
 
 Thanks to Taiseer Joudeh and his great articals: <a href="http://bitoftech.net/2014/06/01/token-based-authentication-asp-net-web-api-2-owin-asp-net-identity/">Token Based Authentication using ASP.NET Web API 2, Owin, and Identity</a>
 <br/>Also his open-source projects on github  <a href="https://github.com/tjoudeh/AngularJSAuthenticationion">tjoudeh/AngularJSAuthenticationion</a>
-<b>4 Main Classes:</b>
+<h1>4 Main Classes:</h1>
 
 <h2>1.AuthServiceStack.AuthModel.EF.AuthContext</h2> wraps basic models for claims-based identity.<br/>
 <b>claims-based identity is<i>a super set of role-base identity</i></b><br/>
