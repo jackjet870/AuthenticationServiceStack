@@ -3,8 +3,67 @@ to be wrapped as components for your Restful-App </h6>
 
 Thanks to Taiseer Joudeh and his great articals: <a href="http://bitoftech.net/2014/06/01/token-based-authentication-asp-net-web-api-2-owin-asp-net-identity/">Token Based Authentication using ASP.NET Web API 2, Owin, and Identity</a>
 <br/>Also his open-source projects on github  <a href="https://github.com/tjoudeh/AngularJSAuthenticationion">tjoudeh/AngularJSAuthenticationion</a>
-<h1>4 Main Classes:</h1>
 
+
+<h1>Your apps consume <i>AuthServiceStack</i> as </h1>
+<pre>
+  <code>
+  [RoutePrefix("api/TestResource")]
+    public class TestResourceController : ApiController
+    {
+        [MyClaimAuthorizationFilter] // the user must have claims <i>get</i> "TestResource"
+        public IHttpActionResult Get()
+        {
+            return Ok(Order.CreateOrders());
+        }
+		[MyClaimAuthorizationFilter("Role","Admin")] // the user must have claims <i>role</i> "Admin"
+        public IHttpActionResult Other()
+        {
+            return Ok(Order.CreateOrders());
+        }
+    }
+  </code>
+</pre>
+
+<h1>Configuration of your Auths-App</h1>
+<pre><code>
+[assembly: Microsoft.Owin.OwinStartup(typeof(AuthCenter.Startup))]
+namespace AuthCenter
+{
+    public class Startup
+    {
+        public void Configuration(Owin.IAppBuilder app)
+        {
+            ConfigureAuth(app);
+            var config = new System.Web.Http.HttpConfiguration();
+            WebApiConfig(config);
+            app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
+            app.UseWebApi(config);
+        }
+
+
+
+        private void ConfigureAuth(IAppBuilder app)
+        {
+            var repo = new AppAuthRepository();
+            Microsoft.Owin.Security.OAuth.OAuthAuthorizationServerOptions OAuthServerOptions =
+                new Microsoft.Owin.Security.OAuth.OAuthAuthorizationServerOptions()
+                {
+                    AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(30),
+                    AllowInsecureHttp = true,
+                    TokenEndpointPath = new Microsoft.Owin.PathString("/token"),
+                    Provider = new AuthServiceStack.AuthProvider.EF.SimpleOAuthClaimsAuthorizationServerProvider(repo),
+                    RefreshTokenProvider = new AuthServiceStack.AuthProvider.EF.SimpleFreshTokenProvider(repo)
+
+                };
+            app.UseOAuthAuthorizationServer(OAuthServerOptions);
+            app.UseOAuthBearerAuthentication(new Microsoft.Owin.Security.OAuth.OAuthBearerAuthenticationOptions());
+
+        }
+		...
+</code></pre>		 
+
+<h1>Here are 4 Main Classes:</h1>
 <h2>1.AuthServiceStack.AuthModel.EF.AuthContext</h2>which wraps basic models for claims-based identity.<br/>
 <b>as you know,Claims-based identity is <i>  a super set of role-base identity</i></b><br/>
 
@@ -81,64 +140,10 @@ update-database
     }
   </code>
 </pre>
-Important! <br>
+<h3>Important!</h3> <br>
 TransClaimsAuthorizationFilter is abstract and its property <i>ClaimsAbbreviationDictionary</i> is delegate object <br/>
 you can offer a ClaimsAbbreviationDictionary to translate abbr claim to long-unique claim-type <br/>
-Or offer a null object to keep raw claim-type
-
-<pre>
-  <code>[RoutePrefix("api/TestResource")]
-    public class TestResourceController : ApiController
-    {
-        [MyClaimAuthorizationFilter] // the user must have claims <i>get</i> "TestResource"
-        public IHttpActionResult Get()
-        {
-            return Ok(Order.CreateOrders());
-        }
-		[MyClaimAuthorizationFilter("Role","Admin")] // the user must have claims <i>role</i> "Admin"
-        public IHttpActionResult Other()
-        {
-            return Ok(Order.CreateOrders());
-        }
-    }
-  </code>
-</pre>
-
-
-<h1>Configuration of your Auths-App</h1>
-<pre><code>
-[assembly: Microsoft.Owin.OwinStartup(typeof(AuthCenter.Startup))]
-namespace AuthCenter
-{
-    public class Startup
-    {
-        public void Configuration(Owin.IAppBuilder app)
-        {
-            ConfigureAuth(app);
-            var config = new System.Web.Http.HttpConfiguration();
-            WebApiConfig(config);
-            app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
-            app.UseWebApi(config);
-        }
+Or offer a null object to keep raw claim-type.
 
 
 
-        private void ConfigureAuth(IAppBuilder app)
-        {
-            var repo = new AppAuthRepository();
-            Microsoft.Owin.Security.OAuth.OAuthAuthorizationServerOptions OAuthServerOptions =
-                new Microsoft.Owin.Security.OAuth.OAuthAuthorizationServerOptions()
-                {
-                    AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(30),
-                    AllowInsecureHttp = true,
-                    TokenEndpointPath = new Microsoft.Owin.PathString("/token"),
-                    Provider = new AuthServiceStack.AuthProvider.EF.SimpleOAuthClaimsAuthorizationServerProvider(repo),
-                    RefreshTokenProvider = new AuthServiceStack.AuthProvider.EF.SimpleFreshTokenProvider(repo)
-
-                };
-            app.UseOAuthAuthorizationServer(OAuthServerOptions);
-            app.UseOAuthBearerAuthentication(new Microsoft.Owin.Security.OAuth.OAuthBearerAuthenticationOptions());
-
-        }
-		...
-</code></pre>		 
