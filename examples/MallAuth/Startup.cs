@@ -32,7 +32,7 @@ namespace MallAuth
                     AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(30),
                     AllowInsecureHttp = true,
                     TokenEndpointPath = new PathString("/token"),
-                    Provider = new AuthServiceStack.AuthProvider.EF.SimpleTransClaimsOAuthAuthorizationServerProvider(repo),
+                    Provider = new AuthServiceStack.AuthProvider.EF.SimpleOAuthClaimsAuthorizationServerProvider(repo),
                     RefreshTokenProvider = new AuthServiceStack.AuthProvider.EF.SimpleFreshTokenProvider(repo)
 
                 };

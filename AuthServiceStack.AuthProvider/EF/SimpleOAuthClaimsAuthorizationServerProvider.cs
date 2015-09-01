@@ -7,7 +7,7 @@ using System.Configuration;
 
 namespace AuthServiceStack.AuthProvider.EF
 {
-    public class SimpleTransClaimsOAuthAuthorizationServerProvider : Microsoft.Owin.Security.OAuth.OAuthAuthorizationServerProvider
+    public class SimpleOAuthClaimsAuthorizationServerProvider : Microsoft.Owin.Security.OAuth.OAuthAuthorizationServerProvider
     {
         private AuthServiceStack.AuthModel.EF.AuthWithClaimsRepository authRepository;
         private bool userClientAuth;
@@ -23,7 +23,7 @@ namespace AuthServiceStack.AuthProvider.EF
         /// <param name="ClaimsTrans">claims 长短名映射</param>
         /// <param name="userClientAuth">是否客户端必须携带ID</param>
         /// <param name="AnoymouseAllowedOrigins">匿名客户端允许的域名</param>
-        public SimpleTransClaimsOAuthAuthorizationServerProvider(AuthServiceStack.AuthModel.EF.AuthWithClaimsRepository authRepository, bool userClientAuth = false, string AnoymouseAllowedOrigins = "*")
+        public SimpleOAuthClaimsAuthorizationServerProvider(AuthServiceStack.AuthModel.EF.AuthWithClaimsRepository authRepository, bool userClientAuth = false, string AnoymouseAllowedOrigins = "*")
         {
             // TODO: Complete member initialization
             this.authRepository = authRepository;

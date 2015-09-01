@@ -59,7 +59,7 @@
     <Compile Include="TransClaimsAuthorizationFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="EF\SimpleFreshTokenProvider.cs" />
-    <Compile Include="EF\SimpleTransClaimsOAuthAuthorizationServerProvider.cs" />
+    <Compile Include="EF\SimpleOAuthClaimsAuthorizationServerProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AuthServiceStack.AuthModel.EF\AuthServiceStack.AuthModel.EF.csproj">

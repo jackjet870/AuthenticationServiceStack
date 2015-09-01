@@ -1,9 +1,12 @@
 <h6>Implements of Token-based Authentication using EntityFramework/SqlServer,
 to be wrapped as components for your Restful-App </h6>
 
-<b>Main Classes:</b>
+Thanks to Taiseer Joudeh and his great articals: <a href="http://bitoftech.net/2014/06/01/token-based-authentication-asp-net-web-api-2-owin-asp-net-identity/">Token Based Authentication using ASP.NET Web API 2, Owin, and Identity</a>
+<br/>Also his open-source projects on github  <a href="https://github.com/tjoudeh/AngularJSAuthenticationion">tjoudeh/AngularJSAuthenticationion</a>
+<b>4 Main Classes:</b>
 
-<i>AuthServiceStack.AuthModel.EF.AuthContext</i> wraps basic models for claims-based identity:<i>the super set of role-base identity</i><br/>
+<h2>1.AuthServiceStack.AuthModel.EF.AuthContext</h2> wraps basic models for claims-based identity.<br/>
+<b>claims-based identity is<i>a super set of role-base identity</i></b><br/>
 
 So you can inherit it like <br/>
 <pre>
@@ -22,7 +25,7 @@ So you can inherit it like <br/>
         }
  </code>
 </pre>
- <i>AuthServiceStack.AuthModel.EF.AuthWithClaimsRepository</i> wraps common-used operations for authentication && authorization,such as register user..<br/>
+ <h2>2.AuthServiceStack.AuthModel.EF.AuthWithClaimsRepository</h2> wraps common-used operations for authentication && authorization,such as register user..<br/>
 
  So you can inherit it like <br/>
 <pre>
@@ -42,8 +45,12 @@ So you can inherit it like <br/>
  </code>
 </pre>
  <br>
-
-<br>
+ <h2>
+   3.AuthServiceStack.AuthProvider.SimpleOAuthClaimsAuthorizationServerProvider
+ <h2> wraps clients authentication,token-generating/ticket with identities
+  <h2>
+   4.AuthServiceStack.AuthProvider.SimpleFreshTokenProvider
+ <h2> wraps token-refresh.
 <b>How to generate an Authentication Database instance?</b><br/>
 Carefully setup your connectionStrings section in Web.config,you can refer to the example <i>AuthCenter</i><br/>
 Run the following command on your Package-Manage-console targetting  "AuthServiceStack.AuthModel.EF" project<br/>
@@ -96,3 +103,42 @@ Or offer a null object to keep raw claim-type
     }
   </code>
 </pre>
+
+
+<h1>Configuration of your Auths-App</h1>
+<pre><code>
+[assembly: Microsoft.Owin.OwinStartup(typeof(AuthCenter.Startup))]
+namespace AuthCenter
+{
+    public class Startup
+    {
+        public void Configuration(Owin.IAppBuilder app)
+        {
+            ConfigureAuth(app);
+            var config = new System.Web.Http.HttpConfiguration();
+            WebApiConfig(config);
+            app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
+            app.UseWebApi(config);
+        }
+
+
+
+        private void ConfigureAuth(IAppBuilder app)
+        {
+            var repo = new AppAuthRepository();
+            Microsoft.Owin.Security.OAuth.OAuthAuthorizationServerOptions OAuthServerOptions =
+                new Microsoft.Owin.Security.OAuth.OAuthAuthorizationServerOptions()
+                {
+                    AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(30),
+                    AllowInsecureHttp = true,
+                    TokenEndpointPath = new Microsoft.Owin.PathString("/token"),
+                    Provider = new AuthServiceStack.AuthProvider.EF.SimpleOAuthClaimsAuthorizationServerProvider(repo),
+                    RefreshTokenProvider = new AuthServiceStack.AuthProvider.EF.SimpleFreshTokenProvider(repo)
+
+                };
+            app.UseOAuthAuthorizationServer(OAuthServerOptions);
+            app.UseOAuthBearerAuthentication(new Microsoft.Owin.Security.OAuth.OAuthBearerAuthenticationOptions());
+
+        }
+		...
+</code></pre>		 
