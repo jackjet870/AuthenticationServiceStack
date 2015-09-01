@@ -12,11 +12,11 @@ using System.Web.Http.Filters;
 namespace AuthServiceStack.AuthProvider
 {
     public delegate List<Claim> getUserClaims(string username);
-    public delegate Dictionary<string, string> getClaimsTrans();
+    public delegate Dictionary<string, string> ClaimsAbbreviationDictionary();
 
     public abstract class TransClaimsAuthorizationFilter : AuthorizationFilterAttribute
     {
-        protected getClaimsTrans getClaimsTrans;
+        protected ClaimsAbbreviationDictionary ClaimsAbbreviationDictionary;
         //protected Dictionary<string, string> ClaimsTrans;
         protected string ClaimType { get; set; }
         protected string ClaimValue { get; set; }
@@ -40,7 +40,7 @@ namespace AuthServiceStack.AuthProvider
                 var action = actionContext.ActionDescriptor.ActionName.ToLower();
                 var resource = actionContext.ControllerContext.ControllerDescriptor.ControllerName.ToLower();
                 try {
-                    Dictionary<string, string> abbreviationDictionary = getClaimsTrans.Invoke();
+                    Dictionary<string, string> abbreviationDictionary = ClaimsAbbreviationDictionary.Invoke();
                     ClaimType = abbreviationDictionary[action];
                 }
                 catch {
