@@ -110,7 +110,7 @@ So you can inherit it like <br/>
   <h2>
    4.AuthServiceStack.AuthProvider.SimpleFreshTokenProvider
  </h2> wraps token-refresh.
-<b>How to generate an Authentication Database instance?</b><br/>
+<h3>How to generate an Authentication Database instance?</h3><br/>
 Carefully setup your connectionStrings section in Web.config,you can refer to the example <i>AuthCenter</i><br/>
 Run the following command on your Package-Manage-console targetting  "AuthServiceStack.AuthModel.EF" project<br/>
 Or your App (your app should inherits models/entities of "AuthServiceStack.AuthModel.EF" )<br/>
