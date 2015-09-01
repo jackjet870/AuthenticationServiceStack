@@ -1,12 +1,14 @@
-<h1>Implemnts of Token-based Authentication using EntityFramework/SqlServer,wrapped as components for your Restful-App </h1>
+<h6>Implements of Token-based Authentication using EntityFramework/SqlServer,
+to be wrapped as components for your Restful-App </h6>
 
-<b>Install Directs:</b>
+<b>Main Classes</b>
 
-AuthServiceStack.AuthModel.EF.AuthContext wraps basic models for claims-based Identity Authentication <i>the super set of role-base identity</i><br/>
+<i>AuthServiceStack.AuthModel.EF.AuthContext</i> wraps basic models for claims-based identity:<i>the super set of role-base identity</i><br/>
 
 So you can inherit it like <br/>
 <pre>
-  <code>public AppAuthContext()
+  <code>
+  public AppAuthContext()
             : base("EFAuthContext")
         {
 
@@ -20,11 +22,12 @@ So you can inherit it like <br/>
         }
  </code>
 </pre>
- AuthServiceStack.AuthModel.EF.AuthWithClaimsRepository wraps common-used operations for authentication && authorization<br/>
+ <i>AuthServiceStack.AuthModel.EF.AuthWithClaimsRepository</i> wraps common-used operations for authentication && authorization,such as register user..<br/>
 
  So you can inherit it like <br/>
 <pre>
-  <code>public class AppAuthRepository : AuthServiceStack.AuthModel.EF.AuthWithClaimsRepository
+  <code>
+  public class AppAuthRepository : AuthServiceStack.AuthModel.EF.AuthWithClaimsRepository
     {
         public AppAuthRepository() :
             base(new AppAuthContext(), ClaimsAbbreviationDictionary.dict)
@@ -42,18 +45,18 @@ So you can inherit it like <br/>
 
 <br>
 <b>How to generate an Authentication Database instance?</b><br/>
-Carefully setup your connectionStrings section in Web.config<br/>
+Carefully setup your connectionStrings section in Web.config,you can refer to the example <i>AuthCenter</i><br/>
 Run the following command on your Package-Manage-console targetting  "AuthServiceStack.AuthModel.EF" project<br/>
 Or your App (your app should inherits models/entities of "AuthServiceStack.AuthModel.EF" )<br/>
-<pre>
-  <code>enable-migrations 
+<pre><code>
+enable-migrations 
 add-migartion
 update-database
  </code>
 </pre>
 
 
-<h1>Resource-Server Application's Consume Authentication-Filter<h1>
+<h1>Resource-Server Application's Consume Authentication-Filter</h1>
 <pre>
   <code>class MyClaimAuthorizationFilterAttribute : AuthServiceStack.AuthProvider.TransClaimsAuthorizationFilter
     {
@@ -72,7 +75,7 @@ update-database
   </code>
 </pre>
 Important! <br>
-TransClaimsAuthorizationFilter is abstract and its property <i>ClaimsAbbreviationDictionary<i> is delegate object <br/>
+TransClaimsAuthorizationFilter is abstract and its property <i>ClaimsAbbreviationDictionary</i> is delegate object <br/>
 you can offer a ClaimsAbbreviationDictionary to translate abbr claim to long-unique claim-type <br/>
 Or offer a null object to keep raw claim-type
 
