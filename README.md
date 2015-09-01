@@ -5,8 +5,8 @@ Thanks to Taiseer Joudeh and his great articals: <a href="http://bitoftech.net/2
 <br/>Also his open-source projects on github  <a href="https://github.com/tjoudeh/AngularJSAuthenticationion">tjoudeh/AngularJSAuthenticationion</a>
 <h1>4 Main Classes:</h1>
 
-<h2>1.AuthServiceStack.AuthModel.EF.AuthContext</h2> wraps basic models for claims-based identity.<br/>
-<b>claims-based identity is<i>a super set of role-base identity</i></b><br/>
+<h2>1.AuthServiceStack.AuthModel.EF.AuthContext</h2>which wraps basic models for claims-based identity.<br/>
+<b>as you know,Claims-based identity is <i>  a super set of role-base identity</i></b><br/>
 
 So you can inherit it like <br/>
 <pre>
@@ -25,7 +25,7 @@ So you can inherit it like <br/>
         }
  </code>
 </pre>
- <h2>2.AuthServiceStack.AuthModel.EF.AuthWithClaimsRepository</h2> wraps common-used operations for authentication && authorization,such as register user..<br/>
+ <h2>2.AuthServiceStack.AuthModel.EF.AuthWithClaimsRepository</h2>which wraps common-used operations for authentication && authorization,such as register user..<br/>
 
  So you can inherit it like <br/>
 <pre>
@@ -47,10 +47,10 @@ So you can inherit it like <br/>
  <br>
  <h2>
    3.AuthServiceStack.AuthProvider.SimpleOAuthClaimsAuthorizationServerProvider
- <h2> wraps clients authentication,token-generating/ticket with identities
+ </h2>which wraps clients authentication,token-generating/ticket with identities
   <h2>
    4.AuthServiceStack.AuthProvider.SimpleFreshTokenProvider
- <h2> wraps token-refresh.
+ </h2> wraps token-refresh.
 <b>How to generate an Authentication Database instance?</b><br/>
 Carefully setup your connectionStrings section in Web.config,you can refer to the example <i>AuthCenter</i><br/>
 Run the following command on your Package-Manage-console targetting  "AuthServiceStack.AuthModel.EF" project<br/>
