@@ -5,11 +5,12 @@ Thanks to Taiseer Joudeh and his great articals: [Token Based Authentication usi
 Also his open-source [projects](https://github.com/tjoudeh/AngularJSAuthenticationion")
 on github 
 
-# Your apps consume _AuthServiceStack_ as
+## Your apps consume _AuthServiceStack_ as
 ```csharp
   [RoutePrefix("api/TestResource")]
     public class TestResourceController : ApiController
     {
+    	//MyClaimAuthorizationFilter from "AuthServiceStack.AuthProvider.TransClaimsAuthorizationFilter" you can rewrite it
         [MyClaimAuthorizationFilter] // the user must have claims 'get' "TestResource"
         public IHttpActionResult Get()
         {
@@ -23,7 +24,7 @@ on github
     }
 ```
 
-#Configuration of your Auths-App
+##Configuration of your Auths-App
 ```csharp
 [assembly: Microsoft.Owin.OwinStartup(typeof(AuthCenter.Startup))]
 namespace AuthCenter
@@ -61,8 +62,8 @@ namespace AuthCenter
 		...
 ```	 
 
-#Here are 4 Main Classes:
-##1.AuthServiceStack.AuthModel.EF.AuthContext which wraps basic models for claims-based identity.
+##Here are 5 Main Classes:
+###1.AuthServiceStack.AuthModel.EF.AuthContext which wraps basic models for claims-based identity.
 As you know,Claims-based identity is _a super set of role-base identity_  
 
 So you can inherit it like
@@ -80,7 +81,7 @@ So you can inherit it like
             //modelBuilder.Conventions.Remove<System.Data.Entity.ModelConfiguration.Conventions.PluralizingTableNameConvention>();
         }
 ```
-# 2.AuthServiceStack.AuthModel.EF.AuthWithClaimsRepository 
+### 2.AuthServiceStack.AuthModel.EF.AuthWithClaimsRepository 
 which wraps common-used operations for authentication && authorization,such as registering/remove user.. 
 
  So you can inherit it like <br/>
@@ -98,10 +99,10 @@ which wraps common-used operations for authentication && authorization,such as r
         }
     }
 ```
-#  3.AuthServiceStack.AuthProvider.SimpleOAuthClaimsAuthorizationServerProvider
+### 3.AuthServiceStack.AuthProvider.SimpleOAuthClaimsAuthorizationServerProvider
 which wraps clients authentication,token-generating/ticket with identities
 
-#   4.AuthServiceStack.AuthProvider.SimpleFreshTokenProvider
+### 4.AuthServiceStack.AuthProvider.SimpleFreshTokenProvider
 which wraps token-refresh.
 # How to generate an Authentication Database instance? 
 Setup your connectionStrings section in Web.config,you can refer to the example _AuthCenter_
@@ -114,7 +115,7 @@ update-database
 ```
 
 
-#Resource-Server Application's Consume Authentication-Filter 
+### 5.Resource-Server Application's Consume Authentication-Filter 
 ```csharp
 class MyClaimAuthorizationFilterAttribute : AuthServiceStack.AuthProvider.TransClaimsAuthorizationFilter
     {
