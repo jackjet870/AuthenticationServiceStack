@@ -104,7 +104,9 @@ which wraps clients authentication,token-generating/ticket with identities
 
 ### 4.AuthServiceStack.AuthProvider.SimpleFreshTokenProvider
 which wraps token-refresh.
-# How to generate an Authentication Database instance? 
+
+### 5.Resource-Server Application's Consume Authentication-Filter 
+#### How to generate an Authentication Database instance? 
 Setup your connectionStrings section in Web.config,you can refer to the example _AuthCenter_
 Run the following command on your Package-Manage-console targetting  "AuthServiceStack.AuthModel.EF" project 
 Or your App (your app should inherits models/entities of "AuthServiceStack.AuthModel.EF" ) 
@@ -113,9 +115,6 @@ enable-migrations
 add-migartion
 update-database
 ```
-
-
-### 5.Resource-Server Application's Consume Authentication-Filter 
 ```csharp
 class MyClaimAuthorizationFilterAttribute : AuthServiceStack.AuthProvider.TransClaimsAuthorizationFilter
     {
