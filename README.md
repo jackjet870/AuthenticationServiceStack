@@ -62,12 +62,13 @@ namespace AuthCenter
 		...
 ```	 
 
-##Here are 5 Main Classes:
+##Here are 5 main classes to be derived in your app,the following as example:
 ###1.AuthServiceStack.AuthModel.EF.AuthContext which wraps basic models for claims-based identity.
 As you know,Claims-based identity is _a super set of role-base identity_  
 
 So you can inherit it like
 ```csharp
+public class AppAuthContext:AuthContext {
   public AppAuthContext()
             : base("EFAuthContext")
         {
@@ -84,7 +85,7 @@ So you can inherit it like
 ### 2.AuthServiceStack.AuthModel.EF.AuthWithClaimsRepository 
 which wraps common-used operations for authentication && authorization,such as registering/remove user.. 
 
- So you can inherit it like <br/>
+ So you can inherit it like 
 ```csharp
   public class AppAuthRepository : AuthServiceStack.AuthModel.EF.AuthWithClaimsRepository
     {
